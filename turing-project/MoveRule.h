@@ -16,6 +16,11 @@ public:
     string write;
     string lrs;
 
+    string getOldState();
+    string getNewState();
+    char getROfIdx(int idx);
+    char getWOfIdx(int idx);
+    char getLROfIdx(int idx);
     MoveRule();
 };
 

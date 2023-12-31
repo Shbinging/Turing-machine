@@ -2,7 +2,7 @@
 // Created by 水兵 on 2023/12/30.
 //
 
-#include "TmCtx.h"
+#include "ConfigCtx.h"
 #include <string>
 #include <regex>
 #include <utility>
@@ -64,7 +64,7 @@ string vec_toString(const vector<string>& vec){
     return st;
 }
 
-int parse(string input, TmCtx& ctx, bool verbose){
+int parse(string input, ConfigCtx& ctx, bool verbose){
     //remove notion, if one line is ";123\n", then it will be replaced to "\n"
     input = rm_by_regex(input, R"(;.*$)");
     //split file into lines, and empty line will be removed
