@@ -5,6 +5,7 @@
 #include "TmCtx.h"
 #include <string>
 #include <regex>
+#include <utility>
 #include <stdio.h>
 #include "parser.h"
 static string rm_by_regex(string input, string re){
@@ -29,15 +30,69 @@ static vector<string> split_by_regex(string input, string re){
     return result;
 }
 
-int parse(string input, TmCtx& ctx){
-    //remove notion, if one line is ";123\n", then it will be replaced to "\n"
-    input = rm_by_regex(input, ";.*$");
-    //split file into lines, and empty line will be removed
-    vector<string> lines = split_by_regex(input, "\n");
-    string re = R"(#Q = \{[a-zA-Z0-9_]+(,[a-zA-Z0-9_]+)*\})";
-    for(auto &line: lines){
-        if (regex_match(line, regex(re))){
-            printf("%s\n", line.c_str());
+string strip(string input){
+    return rm_by_regex(std::move(input), R"(^\s+|\s+$)");
+}
+
+std::vector<std::string> findGroups(const std::string& str, const std::string & re_st) {
+    std::regex re(re_st);
+    std::vector<std::string> groups;
+    std::smatch match;
+
+    if(std::regex_search(str, match, re)){
+        for(size_t i = 1; i < match.size(); ++i){
+            groups.push_back(match[i]);
         }
     }
+
+    return groups;
+}
+
+string vec_toString(const vector<string>& vec){
+    string st = "[";
+    if (!vec.empty()){
+        st.append("\"");
+        st.append(vec[0]);
+        st.append("\"");
+        for(int i = 1; i < vec.size(); i++){
+            st.append(",\"");
+            st.append(vec[i]);
+            st.append("\"");
+        }
+    }
+    st.append("]");
+    return st;
+}
+
+int parse(string input, TmCtx& ctx, bool verbose){
+    //remove notion, if one line is ";123\n", then it will be replaced to "\n"
+    input = rm_by_regex(input, R"(;.*$)");
+    //split file into lines, and empty line will be removed
+    vector<string> lines = split_by_regex(input, "\n");
+    string re[] = {R"(#Q = \{(\w+(?:,\w+)*)\})",
+            R"(#S = \{([^\s,;{}*_]{1}(?:,[^\s,;{}*_]{1})*)\})",
+            R"(#G = \{([^\s,;{}*]{1}(?:,[^\s,;{}*]{1})*)\})",
+            R"(#q0 = ([^\s,;{}*_]{1}))",
+            R"(#B = _)",
+            R"(#F = \{(\w+)\})",
+                R"(#N = (\d+))",
+                R"((\w+) ([^\s,;{}*]+) ([^\s,;{}*]+) ([lr*]+) (\w+))"
+    };
+    int i = 0;
+    for(auto &line: lines){
+        line = strip(line);
+        int idx = min(i, 7);
+        if (!regex_match(line, regex(re[idx]))){
+            fprintf(stderr, "syntax error\n");
+            if (verbose){
+                fprintf(stderr, "syntax error, line: %s", line.c_str());
+            }
+            return -1;
+        }else{
+            printf("%s\n", vec_toString(findGroups(line, re[idx])).c_str());
+            printf("%s\n", line.c_str());
+        }
+        i += 1;
+    }
+    return 0;
 }

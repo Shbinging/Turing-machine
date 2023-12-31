@@ -6,5 +6,5 @@
 #define TMP_PARSER_H
 
 #include "TmCtx.h"
-int parse(string input, TmCtx& ctx);
+int parse(string input, TmCtx& ctx, bool verbose);
 #endif //TMP_PARSER_H

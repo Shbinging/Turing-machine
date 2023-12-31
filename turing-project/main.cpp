@@ -16,5 +16,5 @@ int main(int argc, char* argv[]){
     }
 
     TmCtx ctx;
-    parse(input, ctx);
+    parse(input, ctx, true);
 }
