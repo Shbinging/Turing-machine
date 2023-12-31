@@ -12,9 +12,9 @@ using namespace std;
 class MoveRule {
 public:
     string old_state, new_state;
-    vector<string> rs;
-    vector<string> ws;
-    vector<char> lrs;
+    string read;
+    string write;
+    string lrs;
 
     MoveRule();
 };

@@ -6,15 +6,15 @@
 #include <string>
 #include <regex>
 #include <utility>
-#include <stdio.h>
 #include "parser.h"
-static string rm_by_regex(string input, string re){
+#include "MoveRule.h"
+static string rm_by_regex(const string& input, const string& re){
     std::regex pattern(re, std::regex::multiline);
     std::string output = std::regex_replace(input, pattern, "");
     return output;
 }
 
-static vector<string> split_by_regex(string input, string re){
+ vector<string> split_by_regex(string input, const string& re){
     std::regex pattern(re);
     std::vector<std::string> result;
 
@@ -30,8 +30,8 @@ static vector<string> split_by_regex(string input, string re){
     return result;
 }
 
-string strip(string input){
-    return rm_by_regex(std::move(input), R"(^\s+|\s+$)");
+string strip(const string& input){
+    return rm_by_regex(input, R"(^\s+|\s+$)");
 }
 
 std::vector<std::string> findGroups(const std::string& str, const std::string & re_st) {
@@ -89,8 +89,56 @@ int parse(string input, TmCtx& ctx, bool verbose){
             }
             return -1;
         }else{
-            printf("%s\n", vec_toString(findGroups(line, re[idx])).c_str());
-            printf("%s\n", line.c_str());
+            auto g = findGroups(line, re[idx]);
+            switch (idx) {
+                case 0: //Q
+                    assert(g.size() == 1);
+                    for(auto& state: split_by_regex(g[0],",")){
+                        ctx.Q.insert(state);
+                    }
+                    break;
+                case 1: //S
+                    assert(g.size() == 1);
+                    for(auto& st: split_by_regex(g[0],",")){
+                        assert(st.size() == 1);
+                        ctx.S.insert(st[0]);
+                    }
+                    break;
+                case 2: //G
+                    assert(g.size() == 1);
+                    for(auto& st: split_by_regex(g[0],",")){
+                        assert(st.size() == 1);
+                        ctx.G.insert(st[0]);
+                    }
+                    break;
+                case 3: //q0
+                    assert(g.size() == 1);
+                    ctx.q0 = g[0];
+                    break;
+                case 4:
+                    break;
+                case 5: //F
+                    for(auto &state: g){
+                        ctx.F.insert(state);
+                    }
+                    break;
+                case 6: //N
+                    assert(g.size() == 1);
+                    ctx.N = stoi(g[0]);
+                    break;
+                case 7: //moveRule
+                    assert(g.size() == 5);
+                    MoveRule mvR;
+                    mvR.old_state = g[0];
+                    mvR.new_state = g[4];
+                    mvR.read = g[1];
+                    mvR.write = g[2];
+                    mvR.lrs = g[3];
+                    assert(g[1].size() == ctx.N);
+                    assert(g[2].size() == ctx.N);
+                    assert(g[3].size() == ctx.N);
+                    ctx.delta.push_back(mvR);
+            }
         }
         i += 1;
     }

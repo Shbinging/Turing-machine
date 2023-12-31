@@ -8,6 +8,7 @@
 #include <unordered_set>
 #include <string>
 #include <vector>
+#include "MoveRule.h"
 using namespace std;
 class TmCtx {
 public:
@@ -15,7 +16,7 @@ public:
     unordered_set<char> S,G;
     string q0;
     int N{};
-    vector<TmCtx> delta;
+    vector<MoveRule> delta;
 
     TmCtx();
 };

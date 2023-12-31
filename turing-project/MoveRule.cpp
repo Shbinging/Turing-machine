@@ -5,7 +5,7 @@
 #include "MoveRule.h"
 
 MoveRule::MoveRule() {
-    rs.clear();
-    ws.clear();
+    read.clear();
+    write.clear();
     lrs.clear();
 }
