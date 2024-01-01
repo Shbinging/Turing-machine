@@ -7,7 +7,7 @@
 #include "TmCtx.h"
 
 bool matchRead(char need, char actual){
-    if(need == '*') return true;
+    if(need == '*' && actual != '_') return true;
     else return need == actual;
 }
 
