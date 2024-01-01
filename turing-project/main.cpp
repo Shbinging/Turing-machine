@@ -44,6 +44,7 @@ int main(int argc, char* argv[]){
     ConfigCtx ctx;
     if (parse(tm_prog, ctx, verbose) != 0) return -1;
     TmCtx tmCtx(ctx.N);
+    tmCtx.state = ctx.q0;
     if (!input.empty()) {
         //checkInput
         int chi = 0;
@@ -52,7 +53,7 @@ int main(int argc, char* argv[]){
                 if (verbose){
                     fprintf(stderr, "Input:\t %s\n", input.c_str());
                     fprintf(stderr, "==================== ERR ====================\n");
-                    fprintf(stderr, "error: Symbol \"%s\" in input is not defined in the set of input symbols\n", ch);
+                    fprintf(stderr, "error: Symbol \"%c\" in input is not defined in the set of input symbols\n", ch);
                     fprintf(stderr, "Input:\t %s\n", input.c_str());
                     fprintf(stderr, "     \t ");
                     for(int j = 0; j < chi; j++) fprintf(stderr, " ");

@@ -45,8 +45,7 @@ void printTape(TMTape& tape, int tape_idx){
     vector<string> idx_list;
     auto r = tape.getRange();
     for(int i = r.first; i <= r.second; i++){
-        int num = abs(i);
-        idx_list.push_back(to_string(i));
+        idx_list.push_back(to_string(abs(i)));
     }
     int n = idx_list.size();
     vector<int> pos_idx;
@@ -66,7 +65,7 @@ void printTape(TMTape& tape, int tape_idx){
     for(int i = 0; i < n; i++){
         char ch = *iter;
         printf("%c", ch);
-        if (i > 0){
+        if (i < n){
             for(int j = pos_idx[i] + 1; j < pos_idx[i + 1]; j++) printf(" ");
         }
         iter++;
@@ -76,7 +75,7 @@ void printTape(TMTape& tape, int tape_idx){
     printf("Head%d\t: ", tape_idx);
     for(int i = 0; i < n; i++){
         if (tape.getCur() == i) printf("^");else printf(" ");
-        if (i > 0){
+        if (i < n){
             for(int j = pos_idx[i] + 1; j < pos_idx[i + 1]; j++) printf(" ");
         }
     }
@@ -85,8 +84,8 @@ void printTape(TMTape& tape, int tape_idx){
 void printTm(TmCtx& tmCtx, int step, int accept){
     printf("Step\t: %d\n", step);
     printf("State\t: %s\n", tmCtx.state.c_str());
-    string acc = accept ? "No" : "Yes";
-    printf("Acc\t: %s\n", acc.c_str());
+    string acc = accept ? "Yes" : "No";
+    printf("Acc\t\t: %s\n", acc.c_str());
     for(int i = 0; i < tmCtx.n; i++){
         printTape(tmCtx.tapes[i], i);
     }
@@ -94,7 +93,6 @@ void printTm(TmCtx& tmCtx, int step, int accept){
 }
 
 int execute(ConfigCtx& configCtx, TmCtx& tmCtx, bool verbose){
-    if (verbose) printf("====================RUN====================\n");
     int accept = 0;
     int step = 0;
     while(true){

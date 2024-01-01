@@ -15,7 +15,7 @@ TMTape::TMTape() : baseOff(10000), tape(baseOff*2, '_') {
 
 int TMTape::MoveRight() {
     cur_idx += 1;
-    if (left == cur_idx && tape[left] == '_'){
+    if (left == cur_idx - 1 && tape[left] == '_'){
         left += 1;
     }
     right = max(right, cur_idx);
@@ -23,9 +23,9 @@ int TMTape::MoveRight() {
 }
 
 int TMTape::MoveLeft() {
-    cur_idx -=1;
-    if (cur_idx == right && tape[right] == '_'){
-        right += 1;
+    cur_idx -= 1;
+    if (cur_idx + 1== right && tape[right] == '_'){
+        right -= 1;
     }
     left = min(left, cur_idx);
     return cur_idx - baseOff + 1;
@@ -55,6 +55,8 @@ void TMTape::setTape(int l, int r, string chars) {
         tape[i + baseOff] = chars[i - l];
     }
     cur_idx = baseOff + l;
+    left = baseOff + l;
+    right = baseOff + r;
 }
 
 int TMTape::getCur() {

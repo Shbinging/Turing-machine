@@ -14,7 +14,7 @@ public:
     string state;
     int n;
     TmCtx(int n){
-        tapes.reserve(n);
+        tapes.resize(n);
         this->n = n;
     }
 };
