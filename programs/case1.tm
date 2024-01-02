@@ -1,4 +1,4 @@
-#Q = {start,copy_a,to_left,clean_all,copy_b,one_to_left,two_to_right_first,multiply_b_first,multiply_b,two_to_right,finish_two,wi,wIl,wIle,wIleg,wIlega,wIlegal,wIlegal_,wIlegal_I,wIlegal_In,wIlegal_Inp,wIlegal_Inpu,wIlegal_Input}
+#Q = {start,copy_a,to_left,clean_all,copy_b,one_to_left,two_to_right_first,multiply_b_first,multiply_b,two_to_right,finish_two,wi,wIl,wIle,wIleg,wIlega,wIlegal,wIlegal_,wIlegal_I,wIlegal_In,wIlegal_Inp,wIlegal_Inpu,wIll,wIlegal_Input}
 #S = {a,b}
 #G = {a,b,I,l,e,g,a,_,n,p,u,t}
 #q0 = start
@@ -23,8 +23,10 @@ to_left __ __ rr wi
 ;Illegal_Input
 wi __ I_ r* wIl
 wi *_ I_ r* wIl
-wIl __ l_ r* wIle
-wIl *_ l_ r* wIle
+wIl __ l_ r* wIll
+wIl *_ l_ r* wIll
+wIll __ l_ r* wIle
+wIll *_ l_ r* wIle
 wIle __ e_ r* wIleg
 wIle *_ e_ r* wIleg
 wIleg __ g_ r* wIlega
