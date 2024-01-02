@@ -4,7 +4,8 @@
 
 #include "TMTape.h"
 #include <algorithm>
-#include "string"
+#include <string>
+#include <cassert>
 
 TMTape::TMTape() : baseOff(10000), tape(baseOff*2, '_') {
     //fixme tape should be auto expanded

@@ -8,6 +8,7 @@
 #include <utility>
 #include "parser.h"
 #include "MoveRule.h"
+#include <cassert>
 static string rm_by_regex(const string& input, const string& re){
     std::regex pattern(re, std::regex::multiline);
     std::string output = std::regex_replace(input, pattern, "");

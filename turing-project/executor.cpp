@@ -5,6 +5,7 @@
 
 #include "ConfigCtx.h"
 #include "TmCtx.h"
+#include <cassert>
 
 bool matchRead(char need, char actual){
     if(need == '*' && actual != '_') return true;

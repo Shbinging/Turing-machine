@@ -6,6 +6,7 @@
 #define TMP_TMTAPE_H
 
 #include<vector>
+#include<string>
 using namespace std;
 class TMTape {
 private:

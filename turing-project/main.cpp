@@ -58,9 +58,9 @@ int main(int argc, char* argv[]){
                     fprintf(stderr, "     \t ");
                     for(int j = 0; j < chi; j++) fprintf(stderr, " ");
                     fprintf(stderr, "^\n");
-                    fprintf(stderr, "==================== END ====================");
+                    fprintf(stderr, "==================== END ====================\n");
                 }else{
-                    fprintf(stderr, "illegal input string");
+                    fprintf(stderr, "illegal input string\n");
                 }
                 return -1;
             }
@@ -77,11 +77,11 @@ int main(int argc, char* argv[]){
         if (accept) printf("ACCEPTED\n");
         else printf("UNACCEPTED\n");
         printf("Result: %s\n",  tmCtx.tapes[0].getFinalTape().c_str());
-        printf("==================== END ====================");
+        printf("==================== END ====================\n");
     }else{
         if (accept) printf("(ACCEPTED)");
         else printf("(UNACCEPTED)");
-        printf(" %s", tmCtx.tapes[0].getFinalTape().c_str());
+        printf(" %s\n", tmCtx.tapes[0].getFinalTape().c_str());
     }
     return 0;
 }
