@@ -10,7 +10,7 @@
 #include "MoveRule.h"
 #include <cassert>
 static string rm_by_regex(const string& input, const string& re){
-    std::regex pattern(re, std::regex::multiline);
+    std::regex pattern(re);
     std::string output = std::regex_replace(input, pattern, "");
     return output;
 }
@@ -67,7 +67,7 @@ string vec_toString(const vector<string>& vec){
 
 int parse(string input, ConfigCtx& ctx, bool verbose){
     //remove notion, if one line is ";123\n", then it will be replaced to "\n"
-    input = rm_by_regex(input, R"(;.*$)");
+    input = rm_by_regex(input, R"(;.*)");
     //split file into lines, and empty line will be removed
     vector<string> lines = split_by_regex(input, "\n");
     string re[] = {R"(#Q = \{(\w+(?:,\w+)*)\})",
